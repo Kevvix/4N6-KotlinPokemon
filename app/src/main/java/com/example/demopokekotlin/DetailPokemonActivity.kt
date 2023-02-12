@@ -6,20 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.demopokekotlin.ui.theme.DemoPokeKotlinTheme
-import okhttp3.OkHttp
-import okhttp3.OkHttpClient
-
-val httpClient = OkHttpClient()
 
 class DetailPokemonActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,9 +33,9 @@ class DetailPokemonActivity : ComponentActivity() {
 
 @Composable
 fun DetailPokemonPage(pokemon : PokemonInfo) {
-    Row() {
+    Row {
         AfficherPokemon(pokemonInfo = pokemon, modifier = Modifier.fillMaxSize(0.5f))
-        Column() {
+        Column {
             Text("BLABLABLA")
             Text("BLABLABLA")
             Text("BLABLABLA")

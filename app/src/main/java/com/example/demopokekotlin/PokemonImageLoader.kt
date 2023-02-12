@@ -23,7 +23,7 @@ class PokemonImageLoader {
         }
 
         Log.w("POKEMONS", "Pokemon $id was not in cache and could not be fetched remotely.")
-        return emptyBitmap;
+        return emptyBitmap
     }
 
     private fun load(id: String): Boolean {
@@ -34,11 +34,6 @@ class PokemonImageLoader {
             bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
         } catch (e: Exception) {
             Log.w("POKEMONS", "Failed to load Pokemon image at '$url': ${e.message}")
-            return false
-        }
-
-        if (bitmap == null) {
-            Log.w("POKEMONS", "Failed to load Pokemon image at '$url': bitmap is invalid.")
             return false
         }
 
