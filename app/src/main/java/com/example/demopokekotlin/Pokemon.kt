@@ -8,8 +8,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 
-class Foo(var status: Int, var response: String)
-
 class GraphQLApi(private val endpoint: String) {
     fun queryJson(query: String): String? {
         val http = OkHttpClient()

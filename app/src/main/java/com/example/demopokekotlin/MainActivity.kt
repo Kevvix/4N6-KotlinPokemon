@@ -2,27 +2,30 @@ package com.example.demopokekotlin
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,15 +33,14 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     var pokemons = listOf<Pokemon>()
 
-    init { // à la création de MainActivity
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         // charger la liste des pokémons de manière asynchrone
         CoroutineScope(Dispatchers.IO).launch {
             pokemons = Pokemon.getAll()
         }
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContent { Main() }
     }
 
@@ -55,9 +57,7 @@ class MainActivity : ComponentActivity() {
 
             // équivalent du RecycleView
             LazyColumn(Modifier.fillMaxHeight()) {
-                items(
-                    count = pokemons.size,
-                    key = { pokemons[it].id!! }) // clé primaire
+                items(count = pokemons.size, key = { pokemons[it].id!! }) // clé primaire
                 {
                     val currentPokemon = pokemons[it]
 
@@ -69,8 +69,7 @@ class MainActivity : ComponentActivity() {
                             val intent = Intent(context, DetailPokemonActivity::class.java)
                             intent.putExtra("pokemonId", currentPokemon.id!!)
                             context.startActivity(intent)
-                        }
-                    )
+                        })
                 }
             }
         }
@@ -88,33 +87,31 @@ class MainActivity : ComponentActivity() {
      */
     @Composable
     fun PokemonListDelegate(
-        modifier: Modifier = Modifier,
-        pokemon: Pokemon,
-        onClick: () -> Unit = {}
+        modifier: Modifier = Modifier, pokemon: Pokemon, onClick: () -> Unit = {}
     ) {
-        val context = LocalContext.current
         val id = pokemon.id.toString().padStart(3, '0') // formatter le id pour le site
-
-        val loader = PokemonImageLoader()
-        var pokemonBitmap by remember { mutableStateOf(value = loader.emptyBitmap) }
+        val imageRequest = ImageRequest.Builder(LocalContext.current.applicationContext)
+            .data("https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png")
+            .crossfade(true).diskCacheKey(pokemon.id).diskCachePolicy(CachePolicy.ENABLED)
+            .setHeader("Cache-Control", "max-age=604800") // garder en cache 7 jours
+            .build()
 
         Box(modifier = modifier
             .background(Color(242, 242, 242))
-            .clickable {
-                onClick()
-            }
-        ) {
-            Image(
+            .clickable { onClick() }) {
+            AsyncImage(
+                model = imageRequest,
+                contentDescription = "Image du Pokémon $pokemon.name", // requis pour accessibilité
                 contentScale = ContentScale.FillBounds,
-                bitmap = pokemonBitmap, contentDescription = "Image du Pokémon",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
+                modifier = Modifier.fillMaxSize()
             )
-            BadgeTypePokemon(pokemon.type!!, modifier = Modifier.align(Alignment.TopEnd))
+            PokemonTypeBadge(pokemon.type!!)
             Text(
-                text = "#${pokemon.id}", fontSize = 6.em,
-                modifier = Modifier.align(Alignment.TopStart)
+                text = "#${pokemon.id}",
+                fontSize = 6.em,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
             )
             Text(
                 text = pokemon.name!!,
@@ -128,109 +125,85 @@ class MainActivity : ComponentActivity() {
             )
         }
         Spacer(modifier = Modifier.size(1.dp))
-
-        LaunchedEffect("setBitmap") {
-            CoroutineScope(Dispatchers.IO).launch {
-                pokemonBitmap = loader.get(id)
-
-                if (pokemonBitmap == loader.emptyBitmap) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        val toast = Toast.makeText(
-                            context,
-                            "Un ou des pokémons n'ont pas pu être chargés.",
-                            Toast.LENGTH_LONG
-                        )
-                        toast.show()
-                    }
-                }
-            }
-        }
     }
 
     @Composable
-    fun BadgeTypePokemon(type: String, modifier: Modifier = Modifier) {
-        val backgroundColor: Color
-        val textColor: Color
+    fun PokemonTypeBadge(type: String) {
+        val colors = getPokemonTypeColors(type)
+        val backgroundColor = colors.first
+        val textColor = colors.second
 
-        when (type) {
-            "Grass" -> {
-                backgroundColor = Color(155, 204, 80)
-                textColor = Color.Black
-            }
-            "Fire" -> {
-                backgroundColor = Color(253, 125, 36)
-                textColor = Color.White
-            }
-            "Water" -> {
-                backgroundColor = Color(69, 465, 196)
-                textColor = Color.White
-            }
-            "Normal" -> {
-                backgroundColor = Color(164, 140, 33)
-                textColor = Color.Black
-            }
-            "Poison" -> {
-                backgroundColor = Color(185, 127, 201)
-                textColor = Color.White
-            }
-            "Rock" -> {
-                backgroundColor = Color(163, 140, 33)
-                textColor = Color.White
-            }
-            "Psychic" -> {
-                backgroundColor = Color(243, 102, 185)
-                textColor = Color.White
-            }
-            "Ice" -> {
-                backgroundColor = Color(81, 196, 231)
-                textColor = Color.Black
-            }
-            "Dragon" -> {
-                backgroundColor = Color(83, 164, 207)
-                textColor = Color.White
-            }
-            "Ground" -> {
-                backgroundColor = Color(83, 164, 207)
-                textColor = Color.White
-            }
-            "Bug" -> {
-                backgroundColor = Color(114, 159, 63)
-                textColor = Color.White
-            }
-            "Fighting" -> {
-                backgroundColor = Color(213, 103, 35)
-                textColor = Color.White
-            }
-            "Fairy" -> {
-                backgroundColor = Color(253, 185, 233)
-                textColor = Color.Black
-            }
-            "Electric" -> {
-                backgroundColor = Color(238, 213, 53)
-                textColor = Color.White
-            }
-            "Ghost" -> {
-                backgroundColor = Color(213, 98, 163)
-                textColor = Color.White
-            }
-            else -> {
-                backgroundColor = Color.Black
-                textColor = Color.White
-            }
+        Box(Modifier
+                .padding(8.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .shadow(2.dp)
+        ) {
+            Text(
+                text = type.first().uppercaseChar() + type.drop(1),
+                fontSize = 5.em,
+                color = textColor,
+                modifier = Modifier
+                    .background(backgroundColor)
+                    .padding(5.dp)
+            )
         }
+    }
 
-        Text(
-            text = type, fontSize = 6.em, color = textColor,
-            modifier = modifier
-                .background(color = backgroundColor)
-                .padding(3.dp)
+    /**
+     * Obtient la couleur correspondant au type de pokémon spécifié. Non-fourni par l'API.
+     * Le when statement de Kotlin est un if très puissant.
+     *
+     * @param type: Le type de pokémon.
+     */
+    private fun getPokemonTypeColors(type: String): Pair<Color, Color> = when (type) {
+        "grass" -> Pair(
+            Color(155, 204, 80), Color.Black
         )
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun DefaultPreview() {
-        Main()
+        "fire" -> Pair(
+            Color(253, 125, 36), Color.White
+        )
+        "water" -> Pair(
+            Color(69, 465, 196), Color.White
+        )
+        "normal" -> Pair(
+            Color(164, 140, 33), Color.Black
+        )
+        "poison" -> Pair(
+            Color(185, 127, 201), Color.White
+        )
+        "rock" -> Pair(
+            Color(163, 140, 33), Color.White
+        )
+        "psychic" -> Pair(
+            Color(243, 102, 185), Color.White
+        )
+        "ice" -> Pair(
+            Color(81, 196, 231), Color.Black
+        )
+        "dragon" -> Pair(
+            Color(83, 164, 207), Color.White
+        )
+        "ground" -> Pair(
+            Color(83, 164, 207), Color.White
+        )
+        "bug" -> Pair(
+            Color(114, 159, 63), Color.White
+        )
+        "fighting" -> Pair(
+            Color(213, 103, 35), Color.White
+        )
+        "fairy" -> Pair(
+            Color(253, 185, 233), Color.Black
+        )
+        "electric" -> Pair(
+            Color(238, 213, 53), Color.White
+        )
+        "ghost" -> Pair(
+            Color(213, 98, 163), Color.White
+        )
+        else -> Pair(
+            Color.Black, Color.White
+        )
     }
 }
 
