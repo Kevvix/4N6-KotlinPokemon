@@ -55,6 +55,10 @@ class MainActivity : ComponentActivity() {
         Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             val context = LocalContext.current
 
+            Text(
+                text = "Pokemons"
+            )
+
             // équivalent du RecycleView
             LazyColumn(Modifier.fillMaxHeight()) {
                 items(count = pokemons.size, key = { pokemons[it].id!! }) // clé primaire
@@ -114,14 +118,15 @@ class MainActivity : ComponentActivity() {
                     .padding(8.dp)
             )
             Text(
-                text = pokemon.name!!,
-                fontSize = 10.em,
+                text = pokemon.name!!.titleCase(),
+                fontSize = 8.em,
                 textAlign = TextAlign.Center,
                 color = Color.White,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .background(color = Color.Black.copy(alpha = 0.6f))
                     .fillMaxWidth(1f)
+                    .padding(3.dp)
             )
         }
         Spacer(modifier = Modifier.size(1.dp))
@@ -139,7 +144,7 @@ class MainActivity : ComponentActivity() {
                 .shadow(2.dp)
         ) {
             Text(
-                text = type.first().uppercaseChar() + type.drop(1),
+                text = type.titleCase(),
                 fontSize = 5.em,
                 color = textColor,
                 modifier = Modifier
@@ -205,6 +210,10 @@ class MainActivity : ComponentActivity() {
             Color.Black, Color.White
         )
     }
+
+    // fonction d'extension de la classe String
+    private fun String.titleCase(): String
+        = this.first().uppercaseChar() + this.drop(1)
 }
 
 
