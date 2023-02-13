@@ -36,12 +36,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setContent { Main() }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         // charger la liste des pokémons de manière asynchrone
         CoroutineScope(Dispatchers.IO).launch {
             pokemons = Pokemon.getAll()
         }
-
-        setContent { Main() }
     }
 
     /**
