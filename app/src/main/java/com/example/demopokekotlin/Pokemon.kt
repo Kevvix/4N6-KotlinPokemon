@@ -74,8 +74,8 @@ class Pokemon {
             val dummy = Pokemon()
 
             dummy.id = "448"
-            dummy.name = "Lucario"
-            dummy.type = "Furry art poser"
+            dummy.name = "Kevvix"
+            dummy.type = "Desjardins"
 
             return dummy
         }

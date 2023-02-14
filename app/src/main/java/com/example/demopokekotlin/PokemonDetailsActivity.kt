@@ -37,8 +37,6 @@ fun PokemonDetails(pokemon : Pokemon) {
         Column {
             Text(text = pokemon.name!!, fontSize = 24.em)
             Text(text = pokemon.type!!, fontSize = 16.em)
-
-            LoremIpsum()
         }
     }
 }
