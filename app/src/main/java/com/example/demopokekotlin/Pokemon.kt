@@ -1,8 +1,10 @@
 package com.example.demopokekotlin
 
+import android.content.Context
 import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 
 // TODO: Implement factory pattern
 class Pokemon {
@@ -12,16 +14,18 @@ class Pokemon {
 
     companion object {
         var failure = Pokemon()
+        private val client = GraphQLApi("https://beta.pokeapi.co/graphql/v1beta/")
 
-        fun getAll(): List<Pokemon> {
+        fun getAll(context: Context): List<Pokemon> {
             val pokemons = mutableListOf<Pokemon>()
-            val client = GraphQLApi("https://beta.pokeapi.co/graphql/v1beta/")
+            val response: String?
+            val cache = File(context.cacheDir, "pokemons_list.cache.json")
 
-            /*val reader = FileReader("pokemons.gql")
-            val query = reader.readText()
-            reader.close()*/
-
-            val query = """
+            if (cache.exists()) {
+                response = cache.readText()
+                Log.i("POKEMONS", "Using cached response for getAll()")
+            } else {
+                val query = """
                 query pokemons_list {
                     pokemon_v2_pokemon {
                         id
@@ -35,11 +39,12 @@ class Pokemon {
                     }
                 }
             """.trimIndent()
+                response = client.queryJson(query)
+            }
 
             failure.name = "Failed to load"
             failure.type = "Rip bozo"
 
-            val response = client.queryJson(query)
             if (response == null) {
                 Log.w("POKEMONS", "Failed to load pokemons: request failed.")
                 return listOf()
@@ -58,6 +63,9 @@ class Pokemon {
                 Log.w("POKEMONS", "Failed to load pokemons: ${e.message}.")
                 return listOf()
             }
+
+            if (!cache.exists())
+                cache.writeText(response)
 
             return pokemons
         }

@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
         // charger la liste des pokémons de manière asynchrone
         CoroutineScope(Dispatchers.IO).launch {
-            pokemons = Pokemon.getAll()
+            pokemons = Pokemon.getAll(applicationContext)
         }
     }
 
