@@ -70,8 +70,14 @@ class Pokemon {
             return pokemons
         }
 
-        fun getDetailsOf() {
+        fun getById(id: String): Pokemon {
+            val dummy = Pokemon()
 
+            dummy.id = "448"
+            dummy.name = "Lucario"
+            dummy.type = "Furry art poser"
+
+            return dummy
         }
 
         private fun parsePokemons(json: JSONObject, pokemons: MutableList<Pokemon>) {

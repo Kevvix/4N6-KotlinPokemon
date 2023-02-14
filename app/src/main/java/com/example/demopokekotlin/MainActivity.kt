@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                         Modifier.fillParentMaxHeight(0.45f),
                         currentPokemon,
                         onClick = {
-                            val intent = Intent(context, DetailPokemonActivity::class.java)
+                            val intent = Intent(context, PokemonDetailsActivity::class.java)
                             intent.putExtra("pokemonId", currentPokemon.id!!)
                             context.startActivity(intent)
                         })
