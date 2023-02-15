@@ -1,63 +1,84 @@
 package com.example.demopokekotlin
 
+import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.demopokekotlin.ui.theme.DemoPokeKotlinTheme
-
-class WelcomeActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            DemoPokeKotlinTheme {
-                WelcomeActivityPage()
-            }
-        }
-    }
-}
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Preview(showBackground = true)
 @Composable
-fun WelcomeActivityPage() {
+fun WelcomeActivityPage(navController: NavController = rememberNavController()) {
+
+    var context = LocalContext.current
+
     DemoPokeKotlinTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = Color(246,222,130)) {
 
+
             var spaceBetweenElement = 10.dp
 
-            IconButton(onClick = {
-                /* TODO : Démarrer la musique nostalgique de pokémon en background */
-            }) {
-                Icon(Icons.Outlined.Lock, contentDescription = "Localized description")
-                Text("Input Chip")
+            Box(modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()){
+
+                Icon(imageVector =  ImageVector.vectorResource(id = R.drawable.icons_music),
+                    contentDescription = "icone",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .align(Alignment.TopEnd)
+                        .padding(5.dp)
+                        .clickable {
+                           //TODO : Recommencer une deuxième fois ne marche pas :(
+                            if (MediaManager.getInstance(context)?.isPlaying!!) {
+                                MediaManager.getInstance(context)?.stop()
+                            } else {
+                                MediaManager.getInstance(context)?.start()
+                            }
+                        })
+
             }
+
+
 
             Column(horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center){
                 Text("Bienvenue dans le monde", fontSize = 6.em)
-
                 Spacer(modifier = Modifier.size(spaceBetweenElement))
                 Text("de JectPack Compose")
 
@@ -73,6 +94,7 @@ fun WelcomeActivityPage() {
                 Spacer(modifier = Modifier.size(spaceBetweenElement))
                 Row {
                     Button(onClick = { /*TODO*/
+                        navController.navigate("pokemon/list")
 
                     }) {
                         Text(text = "Explorer")

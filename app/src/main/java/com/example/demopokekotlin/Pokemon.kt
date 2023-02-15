@@ -16,7 +16,7 @@ class Pokemon {
         var failure = Pokemon()
         private val client = GraphQLApi("https://beta.pokeapi.co/graphql/v1beta/")
 
-        fun getAll(context: Context): List<Pokemon> {
+        fun getAll(context: Context): MutableList<Pokemon> {
             val pokemons = mutableListOf<Pokemon>()
             val response: String?
             val cache = File(context.cacheDir, "pokemons_list.cache.json")
@@ -47,21 +47,21 @@ class Pokemon {
 
             if (response == null) {
                 Log.w("POKEMONS", "Failed to load pokemons: request failed.")
-                return listOf()
+                return mutableListOf<Pokemon>()
             }
 
             val json = JSONObject(response)
 
             if (json.has("errors")) {
                 Log.w("POKEMONS", "Failed to load pokemons: $response.")
-                return listOf()
+                return mutableListOf<Pokemon>()
             }
 
             try {
                 parsePokemons(json, pokemons)
             } catch(e: Exception) {
                 Log.w("POKEMONS", "Failed to load pokemons: ${e.message}.")
-                return listOf()
+                return mutableListOf<Pokemon>()
             }
 
             if (!cache.exists())
