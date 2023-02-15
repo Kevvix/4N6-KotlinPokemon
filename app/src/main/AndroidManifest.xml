@@ -14,14 +14,13 @@
         android:theme="@style/Theme.DemoPokeKotlin"
         tools:targetApi="31">
         <activity
-            android:name=".DetailPokemonActivity"
+            android:name=".PokemonDetailsActivity"
             android:exported="false"
             android:label="@string/title_activity_detail_pokemon"
             android:theme="@style/Theme.DemoPokeKotlin" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.DemoPokeKotlin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
