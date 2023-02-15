@@ -14,6 +14,11 @@
         android:theme="@style/Theme.DemoPokeKotlin"
         tools:targetApi="31">
         <activity
+            android:name=".WelcomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_welcome"
+            android:theme="@style/Theme.DemoPokeKotlin" />
+        <activity
             android:name=".PokemonDetailsActivity"
             android:exported="false"
             android:label="@string/title_activity_detail_pokemon"

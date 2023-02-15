@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">DemoPokeKotlin</string>
     <string name="title_activity_detail_pokemon">DetailPokemonActivity</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
 </resources>
