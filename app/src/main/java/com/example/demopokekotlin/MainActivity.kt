@@ -3,6 +3,8 @@ package com.example.demopokekotlin
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
@@ -15,6 +17,9 @@ import androidx.navigation.compose.rememberNavController
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val policy = ThreadPolicy.Builder().permitAll().build() //TODO : Temporaire, faire autrement!
+        StrictMode.setThreadPolicy(policy) //TODO : Temporaire, faire autrement!
+
         setContent {
             MainActivityPage()
         }
