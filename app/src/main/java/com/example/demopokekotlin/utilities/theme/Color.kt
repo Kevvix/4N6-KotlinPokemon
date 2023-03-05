@@ -1,4 +1,4 @@
-package com.example.demopokekotlin.ui.theme
+package com.example.demopokekotlin.utilities.theme
 
 import androidx.compose.ui.graphics.Color
 

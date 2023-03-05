@@ -1,4 +1,4 @@
-package com.example.demopokekotlin
+package com.example.demopokekotlin.services
 
 import android.util.Log
 import okhttp3.MediaType.Companion.toMediaType
@@ -28,7 +28,7 @@ class GraphQLApi(private val endpoint: String) {
             .post(body)
             .build()
 
-        val response = http.newCall(request).execute()
+        val response = http.newCall(request).execute() //TODO : Ceci est blocquant!
 
         if (response.body == null) {
             Log.w("POKEMONS", "Failed to load pokemons: code ${response.code}.")
