@@ -1,4 +1,4 @@
-package com.example.demopokekotlin.ui.theme
+package com.example.demopokekotlin.utilities.theme
 
 import android.app.Activity
 import android.os.Build

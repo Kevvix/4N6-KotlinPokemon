@@ -1,7 +1,8 @@
-package com.example.demopokekotlin
+package com.example.demopokekotlin.dto
 
 import android.content.Context
 import android.util.Log
+import com.example.demopokekotlin.services.GraphQLApi
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
