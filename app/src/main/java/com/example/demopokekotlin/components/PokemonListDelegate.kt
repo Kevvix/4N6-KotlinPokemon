@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.em
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import com.example.demopokekotlin.dto.Pokemon
 import com.example.demopokekotlin.utilities.titleCase
+import com.example.demopokekotlin.viewmodels.Pokemon
 
 /**
  * Le delegate pour la liste des pokémons.     *

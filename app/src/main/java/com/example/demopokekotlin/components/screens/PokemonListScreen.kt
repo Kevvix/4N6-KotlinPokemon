@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.demopokekotlin.components.PokemonListDelegate
-import com.example.demopokekotlin.dto.Pokemon
+import com.example.demopokekotlin.viewmodels.Pokemon
 
 /**
  * Le composant racine de l'application Jetpack Compose.

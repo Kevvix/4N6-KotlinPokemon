@@ -17,7 +17,7 @@ import androidx.navigation.navArgument
 import com.example.demopokekotlin.components.screens.PokemonDetailScreen
 import com.example.demopokekotlin.components.screens.PokemonListScreen
 import com.example.demopokekotlin.components.screens.WelcomeActivityScreen
-import com.example.demopokekotlin.dto.Pokemon
+import com.example.demopokekotlin.repositories.PokemonRepository
 
 
 class MainActivity : ComponentActivity() {
@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainActivityPage() {
     val navController = rememberNavController()
+    var pokemonRepository = PokemonRepository()
     NavHost(
         navController = navController,
         startDestination = "welcome"
@@ -44,7 +45,7 @@ fun MainActivityPage() {
         }
 
         composable(route = "pokemon/list") {
-            var data = Pokemon.getAll(LocalContext.current)
+            var data = pokemonRepository.getAll(LocalContext.current)
             PokemonListScreen(navController, data)
         }
 
@@ -52,7 +53,7 @@ fun MainActivityPage() {
                    arguments = listOf(navArgument("id") { type = NavType.IntType }))
         { backStackEntry ->
             var id = backStackEntry.arguments?.getInt("id")!! - 1;
-            var data = Pokemon.getAll(LocalContext.current).get(id) //TODO : Faire un service pour le détail uniquement!
+            var data = pokemonRepository.getAll(LocalContext.current).get(id) //TODO : Faire un service pour le détail uniquement!
             PokemonDetailScreen(navController, data)
         }
 

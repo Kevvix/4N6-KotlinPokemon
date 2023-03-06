@@ -1,4 +1,4 @@
-package com.example.demopokekotlin.services
+package com.example.demopokekotlin.repositories
 
 import android.util.Log
 import okhttp3.MediaType.Companion.toMediaType
