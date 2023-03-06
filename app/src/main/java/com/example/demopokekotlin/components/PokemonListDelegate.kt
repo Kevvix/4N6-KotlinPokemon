@@ -38,22 +38,10 @@ import com.example.demopokekotlin.viewmodels.Pokemon
 fun PokemonListDelegate(
     modifier: Modifier = Modifier, pokemon: Pokemon, onClick: () -> Unit = {}
 ) {
-    val id = pokemon.id.toString().padStart(3, '0') // formatter le id pour le site
-    val imageRequest = ImageRequest.Builder(LocalContext.current.applicationContext)
-        .data("https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png")
-        .crossfade(true).diskCacheKey(pokemon.id).diskCachePolicy(CachePolicy.ENABLED)
-        .setHeader("Cache-Control", "max-age=604800") // garder en cache 7 jours
-        .build()
-
     Box(modifier = modifier
         .background(Color(242, 242, 242))
         .clickable { onClick() }) {
-        AsyncImage(
-            model = imageRequest,
-            contentDescription = "Image du Pokémon $pokemon.name", // requis pour accessibilité
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier.fillMaxSize()
-        )
+        PokemonImage(pokemon.id!!)
         PokemonTypeBadge(pokemon.type!!)
         Text(
             text = "#${pokemon.id}",

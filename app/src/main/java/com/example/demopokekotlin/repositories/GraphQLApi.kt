@@ -17,7 +17,7 @@ class GraphQLApi(private val endpoint: String) {
         try {
             json.put("query", query)
             json.put("variables", JSONObject())
-            json.put("operationName", "pokemons_list")
+            //json.put("operationName", "pokemons_list")
         } catch (e: Exception) {
             Log.w("POKEMONS", "Invalid query: ${e.message}.")
         }

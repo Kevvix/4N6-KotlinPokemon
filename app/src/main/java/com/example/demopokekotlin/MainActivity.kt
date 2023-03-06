@@ -45,7 +45,7 @@ fun MainActivityPage() {
         }
 
         composable(route = "pokemon/list") {
-            var data = pokemonRepository.getAll(LocalContext.current)
+            var data = pokemonRepository.getAllPokemons(LocalContext.current)
             PokemonListScreen(navController, data)
         }
 
@@ -53,7 +53,7 @@ fun MainActivityPage() {
                    arguments = listOf(navArgument("id") { type = NavType.IntType }))
         { backStackEntry ->
             var id = backStackEntry.arguments?.getInt("id")!!;
-            var data = pokemonRepository.getAll(LocalContext.current).get(id - 1) //TODO : BAD! Faire un service pour le détail uniquement!
+            var data = pokemonRepository.getPokemonById(LocalContext.current, id)
             PokemonDetailScreen(navController, data)
         }
 
