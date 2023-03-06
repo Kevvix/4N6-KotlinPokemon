@@ -1,13 +1,15 @@
 package com.example.demopokekotlin.components
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-//TODO : Il y a une manière de gérer les fonctions qui sont utilitaire à des components (à valider)
+
 /**
  * Obtient la couleur correspondant au type de pokémon spécifié. Non-fourni par l'API.
  * Le when statement de Kotlin est un if très puissant.
  *
  * @param type: Le type de pokémon.
  */
+@Composable
 public fun getPokemonTypeColors(type: String): Pair<Color, Color> = when (type) {
     "grass" -> Pair(
         Color(155, 204, 80), Color.Black

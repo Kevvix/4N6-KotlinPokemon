@@ -64,14 +64,14 @@ fun PokemonListDelegate(
         )
         Text(
             text = pokemon.name!!.titleCase(),
-            fontSize = 8.em,
+            fontSize = 6.em,
             textAlign = TextAlign.Center,
             color = Color.White,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .background(color = Color.Black.copy(alpha = 0.6f))
                 .fillMaxWidth(1f)
-                .padding(3.dp)
+                .padding(1.dp)
         )
     }
     Spacer(modifier = Modifier.size(1.dp))
