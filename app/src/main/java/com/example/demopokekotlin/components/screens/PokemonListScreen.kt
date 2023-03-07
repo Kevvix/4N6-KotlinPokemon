@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Surface
@@ -21,13 +22,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.demopokekotlin.R
 import com.example.demopokekotlin.components.PokemonListDelegate
+import com.example.demopokekotlin.utilities.MediaManager
 import com.example.demopokekotlin.viewmodels.Pokemon
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.count
@@ -57,12 +63,16 @@ fun PokemonListScreen(navController: NavController = rememberNavController(), da
                 }
             },
             content = {
-                Column {
-                    Text(
-                        text = "Liste des pokémons",
-                        fontSize = 10.em,
+                Box(modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()){
+
+                    Icon(imageVector =  ImageVector.vectorResource(id = R.drawable.filter),
+                        contentDescription = "icone",
                         modifier = Modifier
-                            .padding(10.dp)
+                            .size(40.dp)
+                            .padding(5.dp)
+                            .align(Alignment.TopEnd)
                             .clickable {
                                 scope.launch {
                                     if (drawerState.isClosed) {
@@ -71,7 +81,16 @@ fun PokemonListScreen(navController: NavController = rememberNavController(), da
                                         drawerState.close()
                                     }
                                 }
-                            }
+                            })
+
+                }
+                Column {
+                    //TODO : Faire une vrai ToolBar 
+                    Text(
+                        text = "Liste des pokémons",
+                        fontSize = 10.em,
+                        modifier = Modifier
+                            .padding(10.dp)
                     )
 
                     if(pokemons.isEmpty()) {
