@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">DemoPokeKotlin</string>
-    <string name="title_activity_detail_pokemon">DetailPokemonActivity</string>
-    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="app_name">Playground Pokemon</string>
     <string name="title_activity_main">MainActivity</string>
 </resources>

@@ -56,6 +56,15 @@ public fun getPokemonTypeColors(type: String): Pair<Color, Color> = when (type) 
     "ghost" -> Pair(
         Color(213, 98, 163), Color.White
     )
+    "steel" -> Pair(
+        Color(153, 183, 184), Color.Black
+    )
+    "flying" -> Pair(
+        Color(189, 185, 184), Color.Black
+    )
+    "dark" -> Pair(
+        Color(112, 112, 112), Color.Black
+    )
     else -> Pair(
         Color.Black, Color.White
     )

@@ -159,7 +159,7 @@ class PokemonRepository {
         } else {
             val query = """
                 query pokemons_list {
-                    pokemon_v2_pokemon {
+                   pokemon_v2_pokemon(where: {id: {_lte: 1008}}) {
                         id
                         name
                         pokemon_v2_pokemontypes {
@@ -222,9 +222,11 @@ class PokemonRepository {
         pokemon.name = pokemonObject.getString("name")
 
         val pokemonTypesArray = pokemonObject.getJSONArray("pokemon_v2_pokemontypes")
+        var types = mutableListOf<String>()
         for (j in 0 until pokemonTypesArray.length()) {
-            pokemon.type = pokemonTypesArray.getJSONObject(j).getJSONObject("pokemon_v2_type").getString("name")
+            types.add(pokemonTypesArray.getJSONObject(j).getJSONObject("pokemon_v2_type").getString("name"))
         }
+        pokemon.type = types
 
         pokemons.add(pokemon)
     }

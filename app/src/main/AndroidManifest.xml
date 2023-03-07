@@ -24,27 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".WelcomeActivity"
-            android:exported="true"
-            android:label="@string/title_activity_welcome"
-            android:theme="@style/Theme.DemoPokeKotlin" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".PokemonDetailsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_detail_pokemon"
-            android:theme="@style/Theme.DemoPokeKotlin" />
-        <activity
-            android:name=".PokemonListActivity"
-            android:exported="false"
-            android:theme="@style/Theme.DemoPokeKotlin" >
-        </activity>
     </application>
 
 </manifest>

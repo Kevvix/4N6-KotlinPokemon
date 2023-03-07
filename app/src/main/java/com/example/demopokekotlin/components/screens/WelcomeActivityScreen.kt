@@ -57,12 +57,7 @@ fun WelcomeActivityScreen(navController: NavController = rememberNavController()
                         .align(Alignment.TopEnd)
                         .padding(5.dp)
                         .clickable {
-                           //TODO : Recommencer une deuxième fois ne marche pas :(
-                            if (MediaManager.getInstance(context)?.isPlaying!!) {
-                                MediaManager.getInstance(context)?.stop()
-                            } else {
-                                MediaManager.getInstance(context)?.start()
-                            }
+                            MediaManager.tooglePlayMusic(context)
                         })
 
             }

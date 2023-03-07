@@ -3,6 +3,7 @@ package com.example.demopokekotlin.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,7 +43,7 @@ fun PokemonListDelegate(
         .background(Color(242, 242, 242))
         .clickable { onClick() }) {
         PokemonImage(pokemon.id!!)
-        PokemonTypeBadge(pokemon.type!!)
+        PokemonTypeBadge(pokemon.type!!.first())
         Text(
             text = "#${pokemon.id}",
             fontSize = 6.em,
