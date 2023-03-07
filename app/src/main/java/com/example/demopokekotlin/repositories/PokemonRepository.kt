@@ -143,6 +143,13 @@ class PokemonRepository {
         }
         pokemon.abilities = abilities
 
+        pokemon.pv = (pokemonJSONInfo.getJSONArray("stats")[0] as JSONObject).getInt("value")
+        pokemon.attack = (pokemonJSONInfo.getJSONArray("stats")[1] as JSONObject).getInt("value")
+        pokemon.defence = (pokemonJSONInfo.getJSONArray("stats")[2] as JSONObject).getInt("value")
+        pokemon.specialAttack = (pokemonJSONInfo.getJSONArray("stats")[3] as JSONObject).getInt("value")
+        pokemon.specialDefence = (pokemonJSONInfo.getJSONArray("stats")[4] as JSONObject).getInt("value")
+        pokemon.speed = (pokemonJSONInfo.getJSONArray("stats")[5] as JSONObject).getInt("value")
+
         //TODO : Mapper les 6 stats de bases également
 
         return pokemon
